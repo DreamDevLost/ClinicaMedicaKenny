@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ClinicaMedicaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CONSULTA">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DT_MARCADO" Type="datetime" />
+          <Property Name="NR_CRM" Type="varchar" MaxLength="20" />
+          <Property Name="ID_PACIENTE" Type="int" />
+        </EntityType>
+        <EntityType Name="ESPECIALIDADE">
+          <Key>
+            <PropertyRef Name="ID_ESPECIALIDADE" />
+          </Key>
+          <Property Name="NM_ESPECIALIDADE" Type="varchar" MaxLength="100" />
+          <Property Name="ID_ESPECIALIDADE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="NR_CRM" />
+          </Key>
+          <Property Name="NR_CRM" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DT_ADIMISSAO" Type="date" />
+          <Property Name="NM_NOME" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MEDICO_ESPECIALIDADE">
+          <Key>
+            <PropertyRef Name="ID_MEDICO_ESPECIALIDADE" />
+          </Key>
+          <Property Name="ID_MEDICO_ESPECIALIDADE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_ESPECIALIDADE" Type="int" />
+          <Property Name="NR_CRM" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="ID_PACIENTE" />
+          </Key>
+          <Property Name="DS_CODIGO" Type="varchar" MaxLength="255" />
+          <Property Name="NM_NOME" Type="varchar" MaxLength="255" />
+          <Property Name="DS_ENDERECO" Type="varchar" MaxLength="255" />
+          <Property Name="NR_TELEFONE" Type="varchar" MaxLength="15" />
+          <Property Name="ID_PACIENTE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_TIPO_SANGUE" Type="int" />
+        </EntityType>
+        <EntityType Name="TELEFONE_MEDICO">
+          <Key>
+            <PropertyRef Name="ID_TELEFONE_MEDICO" />
+          </Key>
+          <Property Name="NR_TELEFONE" Type="varchar" MaxLength="15" />
+          <Property Name="ID_TELEFONE_MEDICO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NR_CRM" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TIPO_SANGUE">
+          <Key>
+            <PropertyRef Name="ID_TIPO_SANGUE" />
+          </Key>
+          <Property Name="DS_RH" Type="char" MaxLength="1" />
+          <Property Name="ID_TIPO_SANGUE" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DS_TIPO" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <Association Name="FK__CONSULTA__ID_PAC__440B1D61">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="0..1" />
+          <End Role="CONSULTA" Type="Self.CONSULTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Principal>
+            <Dependent Role="CONSULTA">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTA__NR_CRM__4316F928">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="CONSULTA" Type="Self.CONSULTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="CONSULTA">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICO_ES__ID_ES__46E78A0C">
+          <End Role="ESPECIALIDADE" Type="Self.ESPECIALIDADE" Multiplicity="0..1" />
+          <End Role="MEDICO_ESPECIALIDADE" Type="Self.MEDICO_ESPECIALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIALIDADE">
+              <PropertyRef Name="ID_ESPECIALIDADE" />
+            </Principal>
+            <Dependent Role="MEDICO_ESPECIALIDADE">
+              <PropertyRef Name="ID_ESPECIALIDADE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICO_ES__NR_CR__47DBAE45">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="MEDICO_ESPECIALIDADE" Type="Self.MEDICO_ESPECIALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="MEDICO_ESPECIALIDADE">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PACIENTE__ID_TIP__49C3F6B7">
+          <End Role="TIPO_SANGUE" Type="Self.TIPO_SANGUE" Multiplicity="0..1" />
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_SANGUE">
+              <PropertyRef Name="ID_TIPO_SANGUE" />
+            </Principal>
+            <Dependent Role="PACIENTE">
+              <PropertyRef Name="ID_TIPO_SANGUE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TELEFONE___NR_CR__48CFD27E">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="TELEFONE_MEDICO" Type="Self.TELEFONE_MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="TELEFONE_MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClinicaMedicaModelStoreContainer">
+          <EntitySet Name="CONSULTA" EntityType="Self.CONSULTA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESPECIALIDADE" EntityType="Self.ESPECIALIDADE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICO_ESPECIALIDADE" EntityType="Self.MEDICO_ESPECIALIDADE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TELEFONE_MEDICO" EntityType="Self.TELEFONE_MEDICO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TIPO_SANGUE" EntityType="Self.TIPO_SANGUE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CONSULTA__ID_PAC__440B1D61" Association="Self.FK__CONSULTA__ID_PAC__440B1D61">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CONSULTA" EntitySet="CONSULTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTA__NR_CRM__4316F928" Association="Self.FK__CONSULTA__NR_CRM__4316F928">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CONSULTA" EntitySet="CONSULTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICO_ES__ID_ES__46E78A0C" Association="Self.FK__MEDICO_ES__ID_ES__46E78A0C">
+            <End Role="ESPECIALIDADE" EntitySet="ESPECIALIDADE" />
+            <End Role="MEDICO_ESPECIALIDADE" EntitySet="MEDICO_ESPECIALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICO_ES__NR_CR__47DBAE45" Association="Self.FK__MEDICO_ES__NR_CR__47DBAE45">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="MEDICO_ESPECIALIDADE" EntitySet="MEDICO_ESPECIALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PACIENTE__ID_TIP__49C3F6B7" Association="Self.FK__PACIENTE__ID_TIP__49C3F6B7">
+            <End Role="TIPO_SANGUE" EntitySet="TIPO_SANGUE" />
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TELEFONE___NR_CR__48CFD27E" Association="Self.FK__TELEFONE___NR_CR__48CFD27E">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="TELEFONE_MEDICO" EntitySet="TELEFONE_MEDICO" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ClinicaMedicaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CONSULTA">
+          <Key>
+            <PropertyRef Name="ID_CONSULTA" />
+          </Key>
+          <Property Name="ID_CONSULTA" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DT_MARCADO" Type="DateTime" Precision="3" />
+          <Property Name="NR_CRM" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PACIENTE" Type="Int32" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK__CONSULTA__ID_PAC__440B1D61" FromRole="CONSULTA" ToRole="PACIENTE" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK__CONSULTA__NR_CRM__4316F928" FromRole="CONSULTA" ToRole="MEDICO" />
+        </EntityType>
+        <EntityType Name="ESPECIALIDADE">
+          <Key>
+            <PropertyRef Name="ID_ESPECIALIDADE" />
+          </Key>
+          <Property Name="NM_ESPECIALIDADE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ID_ESPECIALIDADE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="MEDICO_ESPECIALIDADE" Relationship="Self.FK__MEDICO_ES__ID_ES__46E78A0C" FromRole="ESPECIALIDADE" ToRole="MEDICO_ESPECIALIDADE" />
+        </EntityType>
+        <EntityType Name="MEDICO">
+          <Key>
+            <PropertyRef Name="NR_CRM" />
+          </Key>
+          <Property Name="NR_CRM" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DT_ADIMISSAO" Type="DateTime" Precision="0" />
+          <Property Name="NM_NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CONSULTA" Relationship="Self.FK__CONSULTA__NR_CRM__4316F928" FromRole="MEDICO" ToRole="CONSULTA" />
+          <NavigationProperty Name="MEDICO_ESPECIALIDADE" Relationship="Self.FK__MEDICO_ES__NR_CR__47DBAE45" FromRole="MEDICO" ToRole="MEDICO_ESPECIALIDADE" />
+          <NavigationProperty Name="TELEFONE_MEDICO" Relationship="Self.FK__TELEFONE___NR_CR__48CFD27E" FromRole="MEDICO" ToRole="TELEFONE_MEDICO" />
+        </EntityType>
+        <EntityType Name="MEDICO_ESPECIALIDADE">
+          <Key>
+            <PropertyRef Name="ID_MEDICO_ESPECIALIDADE" />
+          </Key>
+          <Property Name="ID_MEDICO_ESPECIALIDADE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_ESPECIALIDADE" Type="Int32" />
+          <Property Name="NR_CRM" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ESPECIALIDADE" Relationship="Self.FK__MEDICO_ES__ID_ES__46E78A0C" FromRole="MEDICO_ESPECIALIDADE" ToRole="ESPECIALIDADE" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK__MEDICO_ES__NR_CR__47DBAE45" FromRole="MEDICO_ESPECIALIDADE" ToRole="MEDICO" />
+        </EntityType>
+        <EntityType Name="PACIENTE">
+          <Key>
+            <PropertyRef Name="ID_PACIENTE" />
+          </Key>
+          <Property Name="DS_CODIGO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NM_NOME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DS_ENDERECO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="NR_TELEFONE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PACIENTE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_TIPO_SANGUE" Type="Int32" />
+          <NavigationProperty Name="CONSULTA" Relationship="Self.FK__CONSULTA__ID_PAC__440B1D61" FromRole="PACIENTE" ToRole="CONSULTA" />
+          <NavigationProperty Name="TIPO_SANGUE" Relationship="Self.FK__PACIENTE__ID_TIP__49C3F6B7" FromRole="PACIENTE" ToRole="TIPO_SANGUE" />
+        </EntityType>
+        <EntityType Name="TELEFONE_MEDICO">
+          <Key>
+            <PropertyRef Name="ID_TELEFONE_MEDICO" />
+          </Key>
+          <Property Name="NR_TELEFONE" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ID_TELEFONE_MEDICO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NR_CRM" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MEDICO" Relationship="Self.FK__TELEFONE___NR_CR__48CFD27E" FromRole="TELEFONE_MEDICO" ToRole="MEDICO" />
+        </EntityType>
+        <EntityType Name="TIPO_SANGUE">
+          <Key>
+            <PropertyRef Name="ID_TIPO_SANGUE" />
+          </Key>
+          <Property Name="DS_RH" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ID_TIPO_SANGUE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DS_TIPO" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PACIENTE" Relationship="Self.FK__PACIENTE__ID_TIP__49C3F6B7" FromRole="TIPO_SANGUE" ToRole="PACIENTE" />
+        </EntityType>
+        <Association Name="FK__CONSULTA__ID_PAC__440B1D61">
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="0..1" />
+          <End Role="CONSULTA" Type="Self.CONSULTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PACIENTE">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Principal>
+            <Dependent Role="CONSULTA">
+              <PropertyRef Name="ID_PACIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CONSULTA__NR_CRM__4316F928">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="CONSULTA" Type="Self.CONSULTA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="CONSULTA">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICO_ES__ID_ES__46E78A0C">
+          <End Role="ESPECIALIDADE" Type="Self.ESPECIALIDADE" Multiplicity="0..1" />
+          <End Role="MEDICO_ESPECIALIDADE" Type="Self.MEDICO_ESPECIALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESPECIALIDADE">
+              <PropertyRef Name="ID_ESPECIALIDADE" />
+            </Principal>
+            <Dependent Role="MEDICO_ESPECIALIDADE">
+              <PropertyRef Name="ID_ESPECIALIDADE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICO_ES__NR_CR__47DBAE45">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="MEDICO_ESPECIALIDADE" Type="Self.MEDICO_ESPECIALIDADE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="MEDICO_ESPECIALIDADE">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TELEFONE___NR_CR__48CFD27E">
+          <End Role="MEDICO" Type="Self.MEDICO" Multiplicity="0..1" />
+          <End Role="TELEFONE_MEDICO" Type="Self.TELEFONE_MEDICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Principal>
+            <Dependent Role="TELEFONE_MEDICO">
+              <PropertyRef Name="NR_CRM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PACIENTE__ID_TIP__49C3F6B7">
+          <End Role="TIPO_SANGUE" Type="Self.TIPO_SANGUE" Multiplicity="0..1" />
+          <End Role="PACIENTE" Type="Self.PACIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TIPO_SANGUE">
+              <PropertyRef Name="ID_TIPO_SANGUE" />
+            </Principal>
+            <Dependent Role="PACIENTE">
+              <PropertyRef Name="ID_TIPO_SANGUE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ClinicaMedicaEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CONSULTA" EntityType="Self.CONSULTA" />
+          <EntitySet Name="ESPECIALIDADE" EntityType="Self.ESPECIALIDADE" />
+          <EntitySet Name="MEDICO" EntityType="Self.MEDICO" />
+          <EntitySet Name="MEDICO_ESPECIALIDADE" EntityType="Self.MEDICO_ESPECIALIDADE" />
+          <EntitySet Name="PACIENTE" EntityType="Self.PACIENTE" />
+          <EntitySet Name="TELEFONE_MEDICO" EntityType="Self.TELEFONE_MEDICO" />
+          <EntitySet Name="TIPO_SANGUE" EntityType="Self.TIPO_SANGUE" />
+          <AssociationSet Name="FK__CONSULTA__ID_PAC__440B1D61" Association="Self.FK__CONSULTA__ID_PAC__440B1D61">
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+            <End Role="CONSULTA" EntitySet="CONSULTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CONSULTA__NR_CRM__4316F928" Association="Self.FK__CONSULTA__NR_CRM__4316F928">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="CONSULTA" EntitySet="CONSULTA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICO_ES__ID_ES__46E78A0C" Association="Self.FK__MEDICO_ES__ID_ES__46E78A0C">
+            <End Role="ESPECIALIDADE" EntitySet="ESPECIALIDADE" />
+            <End Role="MEDICO_ESPECIALIDADE" EntitySet="MEDICO_ESPECIALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICO_ES__NR_CR__47DBAE45" Association="Self.FK__MEDICO_ES__NR_CR__47DBAE45">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="MEDICO_ESPECIALIDADE" EntitySet="MEDICO_ESPECIALIDADE" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TELEFONE___NR_CR__48CFD27E" Association="Self.FK__TELEFONE___NR_CR__48CFD27E">
+            <End Role="MEDICO" EntitySet="MEDICO" />
+            <End Role="TELEFONE_MEDICO" EntitySet="TELEFONE_MEDICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PACIENTE__ID_TIP__49C3F6B7" Association="Self.FK__PACIENTE__ID_TIP__49C3F6B7">
+            <End Role="TIPO_SANGUE" EntitySet="TIPO_SANGUE" />
+            <End Role="PACIENTE" EntitySet="PACIENTE" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ClinicaMedicaModelStoreContainer" CdmEntityContainer="ClinicaMedicaEntities1">
+          <EntitySetMapping Name="CONSULTA">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.CONSULTA">
+              <MappingFragment StoreEntitySet="CONSULTA">
+                <ScalarProperty Name="ID_CONSULTA" ColumnName="ID_CONSULTA" />
+                <ScalarProperty Name="DT_MARCADO" ColumnName="DT_MARCADO" />
+                <ScalarProperty Name="NR_CRM" ColumnName="NR_CRM" />
+                <ScalarProperty Name="ID_PACIENTE" ColumnName="ID_PACIENTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESPECIALIDADE">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.ESPECIALIDADE">
+              <MappingFragment StoreEntitySet="ESPECIALIDADE">
+                <ScalarProperty Name="NM_ESPECIALIDADE" ColumnName="NM_ESPECIALIDADE" />
+                <ScalarProperty Name="ID_ESPECIALIDADE" ColumnName="ID_ESPECIALIDADE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICO">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.MEDICO">
+              <MappingFragment StoreEntitySet="MEDICO">
+                <ScalarProperty Name="NR_CRM" ColumnName="NR_CRM" />
+                <ScalarProperty Name="DT_ADIMISSAO" ColumnName="DT_ADIMISSAO" />
+                <ScalarProperty Name="NM_NOME" ColumnName="NM_NOME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICO_ESPECIALIDADE">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.MEDICO_ESPECIALIDADE">
+              <MappingFragment StoreEntitySet="MEDICO_ESPECIALIDADE">
+                <ScalarProperty Name="ID_MEDICO_ESPECIALIDADE" ColumnName="ID_MEDICO_ESPECIALIDADE" />
+                <ScalarProperty Name="ID_ESPECIALIDADE" ColumnName="ID_ESPECIALIDADE" />
+                <ScalarProperty Name="NR_CRM" ColumnName="NR_CRM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PACIENTE">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.PACIENTE">
+              <MappingFragment StoreEntitySet="PACIENTE">
+                <ScalarProperty Name="DS_CODIGO" ColumnName="DS_CODIGO" />
+                <ScalarProperty Name="NM_NOME" ColumnName="NM_NOME" />
+                <ScalarProperty Name="DS_ENDERECO" ColumnName="DS_ENDERECO" />
+                <ScalarProperty Name="NR_TELEFONE" ColumnName="NR_TELEFONE" />
+                <ScalarProperty Name="ID_PACIENTE" ColumnName="ID_PACIENTE" />
+                <ScalarProperty Name="ID_TIPO_SANGUE" ColumnName="ID_TIPO_SANGUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TELEFONE_MEDICO">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.TELEFONE_MEDICO">
+              <MappingFragment StoreEntitySet="TELEFONE_MEDICO">
+                <ScalarProperty Name="NR_TELEFONE" ColumnName="NR_TELEFONE" />
+                <ScalarProperty Name="ID_TELEFONE_MEDICO" ColumnName="ID_TELEFONE_MEDICO" />
+                <ScalarProperty Name="NR_CRM" ColumnName="NR_CRM" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TIPO_SANGUE">
+            <EntityTypeMapping TypeName="ClinicaMedicaModel.TIPO_SANGUE">
+              <MappingFragment StoreEntitySet="TIPO_SANGUE">
+                <ScalarProperty Name="DS_RH" ColumnName="DS_RH" />
+                <ScalarProperty Name="ID_TIPO_SANGUE" ColumnName="ID_TIPO_SANGUE" />
+                <ScalarProperty Name="DS_TIPO" ColumnName="DS_TIPO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

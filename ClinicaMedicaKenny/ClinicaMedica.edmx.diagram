@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f68ffd491fc34d6bac2f0075509fe74a" Name="Diagram1">
+        <EntityTypeShape EntityType="ClinicaMedicaModel.CONSULTA" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.ESPECIALIDADE" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.MEDICO" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.MEDICO_ESPECIALIDADE" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.PACIENTE" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.TELEFONE_MEDICO" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ClinicaMedicaModel.TIPO_SANGUE" Width="1.5" PointX="1.5" PointY="13" IsExpanded="true" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__CONSULTA__ID_PAC__440B1D61" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__CONSULTA__NR_CRM__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__MEDICO_ES__ID_ES__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__MEDICO_ES__NR_CR__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__TELEFONE___NR_CR__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="ClinicaMedicaModel.FK__PACIENTE__ID_TIP__49C3F6B7" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
